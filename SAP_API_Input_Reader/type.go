@@ -1,4 +1,4 @@
-package file_reader
+package sap_api_input_reader
 
 type EC_MC struct {
 	ConnectionKey string      `json:"connection_key"`
@@ -8,17 +8,17 @@ type EC_MC struct {
 	BillingDocument   struct {
 		BillingDocument                string      `json:"document_no"`
 		DeliverTo                      string      `json:"deliver_to"`
-		Quantity                       float64     `json:"quantity"`
-		PickedQuantity                 float64     `json:"picked_quantity"`
-		TotalNetAmount                 float64     `json:"price"`
+		Quantity                       string      `json:"quantity"`
+		PickedQuantity                 string      `json:"picked_quantity"`
+		TotalNetAmount                 string      `json:"price"`
 	    Batch                          string      `json:"batch"`
 	} `json:"document"`
 	ProductionOrder struct {
 		DocumentNo           string      `json:"document_no"`
 		Status               string      `json:"status"`
 		DeliverTo            string      `json:"deliver_to"`
-		Quantity             float64     `json:"quantity"`
-		CompletedQuantity    float64     `json:"completed_quantity"`
+		Quantity             string      `json:"quantity"`
+		CompletedQuantity    string      `json:"completed_quantity"`
 	    PlannedStartDate     string      `json:"planned_start_date"`
 	    PlannedValidatedDate string      `json:"planned_validated_date"`
 	    ActualStartDate      string      `json:"actual_start_date"`
@@ -26,11 +26,11 @@ type EC_MC struct {
 	    Batch                string      `json:"batch"`
 		Work              struct {
 			WorkNo                   string      `json:"work_no"`
-			Quantity                 float64     `json:"quantity"`
-			CompletedQuantity        float64     `json:"completed_quantity"`
-			ErroredQuantity          float64     `json:"errored_quantity"`
+			Quantity                 string      `json:"quantity"`
+			CompletedQuantity        string      `json:"completed_quantity"`
+			ErroredQuantity          string      `json:"errored_quantity"`
 			Component                string      `json:"component"`
-			PlannedComponentQuantity float64     `json:"planned_component_quantity"`
+			PlannedComponentQuantity string      `json:"planned_component_quantity"`
 			PlannedStartDate         string      `json:"planned_start_date"`
 			PlannedStartTime         string      `json:"planned_start_time"`
 			PlannedValidatedDate     string      `json:"planned_validated_date"`
@@ -44,12 +44,12 @@ type EC_MC struct {
 	APISchema               string      `json:"api_schema"`
 	MaterialCode            string      `json:"material_code"`
 	Plant/supplier          string      `json:"plant/supplier"`
-	Stock                   float64     `json:"stock"`
+	Stock                   string      `json:"stock"`
 	BillingDocumentType     string      `json:"document_type"`
 	BillingDocument         string      `json:"document_no"`
 	PlannedDate             string      `json:"planned_date"`
 	BillingDocumentDate     string      `json:"validated_date"`
-	Deleted                 string      `json:"deleted"`
+	Deleted                 bool        `json:"deleted"`
 }
 
 type SDC struct {
@@ -68,13 +68,13 @@ type SDC struct {
 		DistributionChannel        string `json:"DistributionChannel"`
 		Division                   string `json:"Division"`
 		BillingDocumentDate        string `json:"BillingDocumentDate"`
-		BillingDocumentIsCancelled string `json:"BillingDocumentIsCancelled"`
+		BillingDocumentIsCancelled bool   `json:"BillingDocumentIsCancelled"`
 		CancelledBillingDocument   string `json:"CancelledBillingDocument"`
-		IsExportDelivery           string `json:"IsExportDelivery"`
-		TotalNetAmount             float64 `json:"TotalNetAmount"`
+		IsExportDelivery           bool   `json:"IsExportDelivery"`
+		TotalNetAmount             string  `json:"TotalNetAmount"`
 		TransactionCurrency        string `json:"TransactionCurrency"`
-		TaxAmount                  float64 `json:"TaxAmount"`
-		TotalGrossAmount           float64 `json:"TotalGrossAmount"`
+		TaxAmount                  string  `json:"TaxAmount"`
+		TotalGrossAmount           string  `json:"TotalGrossAmount"`
 		CustomerPriceGroup         string `json:"CustomerPriceGroup"`
 		IncotermsClassification    string `json:"IncotermsClassification"`
 		CustomerPaymentTerms       string `json:"CustomerPaymentTerms"`
@@ -99,7 +99,7 @@ type SDC struct {
 		BillingDocumentListType    string `json:"BillingDocumentListType"`
 		BillingDocumentListDate    string `json:"BillingDocumentListDate"`
 		BillingDocumentItem        struct {
-			BillingDocumentItem          int    `json:"BillingDocumentItem"`
+			BillingDocumentItem          string `json:"BillingDocumentItem"`
 			SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
 			ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
 			CreationDate                 string `json:"CreationDate"`
@@ -111,13 +111,13 @@ type SDC struct {
 			Plant                        string `json:"Plant"`
 			StorageLocation              string `json:"StorageLocation"`
 			BillingDocumentItemText      string `json:"BillingDocumentItemText"`
-			BillingQuantity              float64 `json:"BillingQuantity"`
+			BillingQuantity              string  `json:"BillingQuantity"`
 			BillingQuantityUnit          string `json:"BillingQuantityUnit"`
-			NetAmount                    float64`json:"NetAmount"`
+			NetAmount                    string `json:"NetAmount"`
 			TransactionCurrency          string `json:"TransactionCurrency"`
-			GrossAmount                  float64`json:"GrossAmount"`
+			GrossAmount                  string `json:"GrossAmount"`
 			PricingDate                  string `json:"PricingDate"`
-			TaxAmount                    float64`json:"TaxAmount"`
+			TaxAmount                    string `json:"TaxAmount"`
 			MaterialPricingGroup         string `json:"MaterialPricingGroup"`
 			MainItemMaterialPricingGroup string `json:"MainItemMaterialPricingGroup"`
 			BusinessArea                 string `json:"BusinessArea"`
@@ -128,10 +128,10 @@ type SDC struct {
 			OrderID                      string `json:"OrderID"`
 			CostCenter                   string `json:"CostCenter"`
 			ReferenceSDDocument          string `json:"ReferenceSDDocument"`
-			ReferenceSDDocumentItem      int    `json:"ReferenceSDDocumentItem"`
+			ReferenceSDDocumentItem      string `json:"ReferenceSDDocumentItem"`
 			MatlAccountAssignmentGroup   string `json:"MatlAccountAssignmentGroup"`
 			SalesDocument                string `json:"SalesDocument"`
-			SalesDocumentItem            int    `json:"SalesDocumentItem"`
+			SalesDocumentItem            string `json:"SalesDocumentItem"`
 			SDDocumentReason             string `json:"SDDocumentReason"`
 			ShippingPoint                string `json:"ShippingPoint"`
 		} `json:"BillingDocumentItem" `
@@ -143,5 +143,5 @@ type SDC struct {
 	} `json:"BillingDocument"`
 	APISchema       string `json:"api_schema"`
 	BillingDocument string `json:"billing_document"`
-	Deleted         string `json:"deleted"`
+	Deleted         bool   `json:"deleted"`
 }

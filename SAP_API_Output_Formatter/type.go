@@ -1,4 +1,4 @@
-package sap_api_caller
+package sap_api_output_formatter
 
 type BillingDocument struct {
 	 ConnectionKey   string `json:"connection_key"`
@@ -7,7 +7,7 @@ type BillingDocument struct {
 	 Filepath        string `json:"filepath"`
 	 APISchema       string `json:"api_schema"`
 	 BillingDocument string `json:"billing_document"`
-	 Deleted         string `json:"deleted"`     
+	 Deleted         bool   `json:"deleted"`     
 }
 
 type BillingDocumentHeader struct {
@@ -21,13 +21,13 @@ type BillingDocumentHeader struct {
 	 DistributionChannel        string `json:"DistributionChannel"`
 	 Division                   string `json:"Division"`
 	 BillingDocumentDate        string `json:"BillingDocumentDate"`
-	 BillingDocumentIsCancelled string `json:"BillingDocumentIsCancelled"`
+	 BillingDocumentIsCancelled bool   `json:"BillingDocumentIsCancelled"`
      CancelledBillingDocument   string `json:"CancelledBillingDocument"`
-	 IsExportDelivery           string `json:"IsExportDelivery"`
-	 TotalNetAmount             float64 `json:"TotalNetAmount"`
+	 IsExportDelivery           bool   `json:"IsExportDelivery"`
+	 TotalNetAmount             string `json:"TotalNetAmount"`
 	 TransactionCurrency        string `json:"TransactionCurrency"`
-	 TaxAmount                  float64 `json:"TaxAmount"`
-	 TotalGrossAmount           float64 `json:"TotalGrossAmount"`
+	 TaxAmount                  string `json:"TaxAmount"`
+	 TotalGrossAmount           string `json:"TotalGrossAmount"`
 	 CustomerPriceGroup         string `json:"CustomerPriceGroup"`
 	 IncotermsClassification    string `json:"IncotermsClassification"`
 	 CustomerPaymentTerms       string `json:"CustomerPaymentTerms"`
@@ -54,7 +54,7 @@ type BillingDocumentHeader struct {
 }     
 
 type BillingDocumentItem struct {
-     BillingDocumentItem          int    `json:"BillingDocumentItem"`
+     BillingDocumentItem          string `json:"BillingDocumentItem"`
      SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
      ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
      CreationDate                 string `json:"CreationDate"`
@@ -66,13 +66,13 @@ type BillingDocumentItem struct {
      Plant                        string `json:"Plant"`
      StorageLocation              string `json:"StorageLocation"`
      BillingDocumentItemText      string `json:"BillingDocumentItemText"`
-     BillingQuantity              float64 `json:"BillingQuantity"`
+     BillingQuantity              string `json:"BillingQuantity"`
      BillingQuantityUnit          string `json:"BillingQuantityUnit"`
-     NetAmount                    float64`json:"NetAmount"`
+     NetAmount                    string `json:"NetAmount"`
      TransactionCurrency          string `json:"TransactionCurrency"`
-     GrossAmount                  float64`json:"GrossAmount"`
+     GrossAmount                  string `json:"GrossAmount"`
      PricingDate                  string `json:"PricingDate"`
-     TaxAmount                    float64`json:"TaxAmount"`
+     TaxAmount                    string `json:"TaxAmount"`
      MaterialPricingGroup         string `json:"MaterialPricingGroup"`
      MainItemMaterialPricingGroup string `json:"MainItemMaterialPricingGroup"`
      BusinessArea                 string `json:"BusinessArea"`
@@ -83,10 +83,10 @@ type BillingDocumentItem struct {
      OrderID                      string `json:"OrderID"`
      CostCenter                   string `json:"CostCenter"`
      ReferenceSDDocument          string `json:"ReferenceSDDocument"`
-     ReferenceSDDocumentItem      int    `json:"ReferenceSDDocumentItem"`
+     ReferenceSDDocumentItem      string `json:"ReferenceSDDocumentItem"`
      MatlAccountAssignmentGroup   string `json:"MatlAccountAssignmentGroup"`
      SalesDocument                string `json:"SalesDocument"`
-     SalesDocumentItem            int    `json:"SalesDocumentItem"`
+     SalesDocumentItem            string `json:"SalesDocumentItem"`
      SDDocumentReason             string `json:"SDDocumentReason"`
      ShippingPoint                string `json:"ShippingPoint"`
 }
