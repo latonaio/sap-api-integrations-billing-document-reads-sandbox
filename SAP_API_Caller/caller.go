@@ -40,7 +40,7 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(BillingDocument, PartnerFunction,
 	}()
 
 	go func() {
-		c.DeliveryDocumentItem(BillingDocument, BillingDocumentItem)
+		c.BillingDocumentItem(BillingDocument, BillingDocumentItem)
 		wg.Done()
 	}()
 	wg.Wait()
