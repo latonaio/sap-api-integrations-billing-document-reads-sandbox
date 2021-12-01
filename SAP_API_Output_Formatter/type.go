@@ -10,7 +10,7 @@ type BillingDocument struct {
 	 Deleted         bool   `json:"deleted"`     
 }
 
-type BillingDocumentHeader struct {
+type Header struct {
 	 BillingDocument            string `json:"BillingDocument"`
 	 BillingDocumentType        string `json:"BillingDocumentType"`
 	 SDDocumentCategory         string `json:"SDDocumentCategory"`
@@ -53,7 +53,7 @@ type BillingDocumentHeader struct {
 	 BillingDocumentListDate    string `json:"BillingDocumentListDate"`
 }     
 
-type BillingDocumentItem struct {
+type Item struct {
      BillingDocumentItem          string `json:"BillingDocumentItem"`
      SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
      ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
@@ -92,6 +92,7 @@ type BillingDocumentItem struct {
 }
 
 type PartnerFunction struct {
+     BillingDocument string `json:"BillingDocument"`
      PartnerFunction string `json:"PartnerFunction"`
      Customer        string `json:"Customer"`
      Supplier        string `json:"Supplier"`

@@ -30,23 +30,23 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(BillingDocument, PartnerFunction,
 
 	wg.Add(3)
 	go func() {
-		c.BillingDocumentHeader(BillingDocument)
+		c.Header(BillingDocument)
 		wg.Done()
 	}()
 
 	go func() {
-		c.BillingDocumentPartner(BillingDocument, PartnerFunction)
+		c.PartnerFunction(BillingDocument, PartnerFunction)
 		wg.Done()
 	}()
 
 	go func() {
-		c.BillingDocumentItem(BillingDocument, BillingDocumentItem)
+		c.Item(BillingDocument, BillingDocumentItem)
 		wg.Done()
 	}()
 	wg.Wait()
 }
 
-func (c *SAPAPICaller) BillingDocumentHeader(BillingDocument string) {
+func (c *SAPAPICaller) Header(BillingDocument string) {
 	res, err := c.callBillingDocumentSrvAPIRequirementHeader("A_BillingDocument", BillingDocument)
 	if err != nil {
 		c.log.Error(err)
@@ -57,8 +57,8 @@ func (c *SAPAPICaller) BillingDocumentHeader(BillingDocument string) {
 
 }
 
-func (c *SAPAPICaller) BillingDocumentPartner(BillingDocument, PartnerFunction string) {
-	res, err := c.callBillingDocumentSrvAPIRequirementPartner("A_BillingDocument('{BillingDocument}')/to_Partner", BillingDocument, PartnerFunction)
+func (c *SAPAPICaller) PartnerFunction(BillingDocument, PartnerFunction string) {
+	res, err := c.callBillingDocumentSrvAPIRequirementPartnerFunction("A_BillingDocument('{BillingDocument}')/to_Partner", BillingDocument, PartnerFunction)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -66,7 +66,7 @@ func (c *SAPAPICaller) BillingDocumentPartner(BillingDocument, PartnerFunction s
 
 	c.log.Info(res)
 
-func (c *SAPAPICaller) BillingDocumentItem(BillingDocument, BillingDocumentItem string) {
+func (c *SAPAPICaller) Item(BillingDocument, BillingDocumentItem string) {
 	res, err := c.callBillingDocumentSrvAPIRequirementItem("A_BillingDocumentItem", BillingDocument, BillingDocumentItem)
 	if err != nil {
 		c.log.Error(err)
@@ -99,7 +99,7 @@ func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementHeader(api, BillingDo
 	return byteArray, nil
 }
 
-func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementPartner(api, BillingDocument, PartnerFunction string) ([]byte, error) {
+func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementPartnerFunction(api, BillingDocument, PartnerFunction string) ([]byte, error) {
 	url := strings.Join([]string{c.baseURL, "API_BILLING_DOCUMENT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
