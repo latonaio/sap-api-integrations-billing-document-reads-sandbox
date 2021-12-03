@@ -23,7 +23,7 @@ type Header struct {
 	 BillingDocumentDate        string `json:"BillingDocumentDate"`
 	 BillingDocumentIsCancelled bool   `json:"BillingDocumentIsCancelled"`
      CancelledBillingDocument   string `json:"CancelledBillingDocument"`
-	 IsExportDelivery           bool   `json:"IsExportDelivery"`
+	 IsExportDelivery           string `json:"IsExportDelivery"`
 	 TotalNetAmount             string `json:"TotalNetAmount"`
 	 TransactionCurrency        string `json:"TransactionCurrency"`
 	 TaxAmount                  string `json:"TaxAmount"`

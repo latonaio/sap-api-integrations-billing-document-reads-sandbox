@@ -43,10 +43,10 @@ type EC_MC struct {
 	} `json:"production_order"`
 	APISchema               string      `json:"api_schema"`
 	MaterialCode            string      `json:"material_code"`
-	Plant/supplier          string      `json:"plant/supplier"`
+	Plant_Supplier          string      `json:"plant/supplier"`
 	Stock                   string      `json:"stock"`
 	BillingDocumentType     string      `json:"document_type"`
-	BillingDocument         string      `json:"document_no"`
+	SDDocument              string      `json:"document_no"`
 	PlannedDate             string      `json:"planned_date"`
 	BillingDocumentDate     string      `json:"validated_date"`
 	Deleted                 bool        `json:"deleted"`
@@ -70,11 +70,11 @@ type SDC struct {
 		BillingDocumentDate        string `json:"BillingDocumentDate"`
 		BillingDocumentIsCancelled bool   `json:"BillingDocumentIsCancelled"`
 		CancelledBillingDocument   string `json:"CancelledBillingDocument"`
-		IsExportDelivery           bool   `json:"IsExportDelivery"`
-		TotalNetAmount             string  `json:"TotalNetAmount"`
+		IsExportDelivery           string `json:"IsExportDelivery"`
+		TotalNetAmount             string `json:"TotalNetAmount"`
 		TransactionCurrency        string `json:"TransactionCurrency"`
-		TaxAmount                  string  `json:"TaxAmount"`
-		TotalGrossAmount           string  `json:"TotalGrossAmount"`
+		TaxAmount                  string `json:"TaxAmount"`
+		TotalGrossAmount           string `json:"TotalGrossAmount"`
 		CustomerPriceGroup         string `json:"CustomerPriceGroup"`
 		IncotermsClassification    string `json:"IncotermsClassification"`
 		CustomerPaymentTerms       string `json:"CustomerPaymentTerms"`
@@ -142,6 +142,6 @@ type SDC struct {
 		} `json:"PartnerFunction"`
 	} `json:"BillingDocument"`
 	APISchema       string `json:"api_schema"`
-	BillingDocument string `json:"billing_document"`
+	SDDocument      string `json:"billing_document"`
 	Deleted         bool   `json:"deleted"`
 }
