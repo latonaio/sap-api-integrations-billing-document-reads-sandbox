@@ -26,22 +26,32 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction, billingDocumentItem string) {
+func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction, billingDocumentItem string, accepter []string) {
 	wg := &sync.WaitGroup{}
+	wg.Add(len(accepter))
+	for _, fn := range accepter {
+		switch fn {
+		case "Header":
+			func() {
+				c.Header(billingDocument)
+				wg.Done()
+			}()
+		case "PartnerFunction":
+			func() {
+				c.PartnerFunction(billingDocument, partnerFunction)
+				wg.Done()
+			}()
+		case "Item":
+			func() {
+				c.Item(billingDocument, billingDocumentItem)
+				wg.Done()
+			}()
 
-	wg.Add(3)
-	func() {
-		c.Header(billingDocument)
-		wg.Done()
-	}()
-	func() {
-		c.PartnerFunction(billingDocument, partnerFunction)
-		wg.Done()
-	}()
-	func() {
-		c.Item(billingDocument, billingDocumentItem)
-		wg.Done()
-	}()
+		default:
+			wg.Done()
+		}
+	}
+
 	wg.Wait()
 }
 
