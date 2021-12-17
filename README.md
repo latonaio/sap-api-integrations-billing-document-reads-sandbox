@@ -49,7 +49,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
   
 ```
 	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
-	"accepter": ["Header","Item"],	
+	"accepter": ["Header", "Item"],	
 	"billing_document": "90000024",
 	"deleted": false
 ```
@@ -98,5 +98,59 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction,
 	}
 
 	wg.Wait()
+}
+```
+
+## Output  
+本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
+以下の sample.json の例は、SAP 請求伝票 の ヘッダ が取得された結果の JSON の例です。  
+以下の項目のうち、"BaseUnit" ～ "WeightUnit" は、/SAP_API_Output_Formatter/type.go 内 の Type Product {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+
+```
+{
+	"AccountingDocument": "",
+	"AccountingPostingStatus": "C",
+	"AccountingTransferStatus": "C",
+	"BillingDocument": "90000024",
+	"BillingDocumentCategory": "L",
+	"BillingDocumentDate": "/Date(1473811200000)/",
+	"BillingDocumentIsCancelled": false,
+	"BillingDocumentListDate": "",
+	"BillingDocumentListType": "LR",
+	"BillingDocumentType": "F2",
+	"CancelledBillingDocument": "",
+	"CityCode": "",
+	"CompanyCode": "1710",
+	"Country": "US",
+	"CreationDate": "/Date(1473811200000)/",
+	"CreditControlArea": "A000",
+	"CustomerGroup": "",
+	"CustomerPaymentTerms": "0004",
+	"CustomerPriceGroup": "",
+	"DistributionChannel": "10",
+	"Division": "00",
+	"DocumentReferenceID": "0090000024",
+	"ExchangeRateDate": "/Date(1473811200000)/",
+	"ExchangeRateType": "",
+	"IncotermsClassification": "EXW",
+	"InvoiceListStatus": "",
+	"IsExportDelivery": "",
+	"LastChangeDate": "",
+	"OverallBillingStatus": "A",
+	"PartnerCompany": "",
+	"PaymentMethod": "",
+	"PurchaseOrderByCustomer": "",
+	"Region": "CA",
+	"SDDocumentCategory": "M",
+	"SalesOrganization": "1710",
+	"SoldToParty": "USCU-CUS07",
+	"TaxAmount": "0.00",
+	"TotalGrossAmount": "20000.00",
+	"TotalNetAmount": "20000.00",
+	"TransactionCurrency": "USD",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L54",
+	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Header",
+	"level": "INFO",
+	"time": "2021-12-03T16:06:24.232148+09:00"
 }
 ```
