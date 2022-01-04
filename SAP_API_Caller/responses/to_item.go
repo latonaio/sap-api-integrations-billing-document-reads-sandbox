@@ -1,6 +1,6 @@
 package responses
 
-type Item struct {
+type ToItem struct {
 	D struct {
 		Results []struct {
 			Metadata struct {
@@ -150,12 +150,12 @@ type Item struct {
 			Deferred                       struct {
 				URI string `json:"uri"`
 			} `json:"__deferred"`
-			ToItemPartnerFunction struct {
+			ToPartner struct {
 				Deferred struct {
 					URI string `json:"uri"`
 				} `json:"__deferred"`
 			} `json:"to_Partner"`
-			ToItemPricingElement struct {
+			ToPricingElement struct {
 				Deferred struct {
 					URI string `json:"uri"`
 				} `json:"__deferred"`

@@ -4,7 +4,7 @@
 	"redis_key": "abcdefg",
 	"filepath": "/var/lib/aion/Data/rededge_sdc/abcdef.json",
 	"BillingDocument": {
-		"BillingDocument": "90000024",
+		"BillingDocument": "90000000",
 		"BillingDocumentType": "",
 		"SDDocumentCategory": "",
 		"BillingDocumentCategory": "",
@@ -88,7 +88,7 @@
 		}
 	},
 	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
-	"accepter": ["Header", "Item"],	
-	"billing_document": "90000024",
+	"accepter": ["Item"],	
+	"billing_document": "90000000",
 	"deleted": false
 }
