@@ -24,9 +24,15 @@ sap-api-integrations-billing-document-reads が対応する APIサービス は�
 ## 本レポジトリ に 含まれる API名
 sap-api-integrations-billing-document-reads には、次の API をコールするためのリソースが含まれています。  
 
-* A_BillingDocument（請求伝票 - ヘッダ）
+* A_BillingDocument（請求伝票 - ヘッダ）※請求伝票の詳細データを取得するために、ToItem、ToPartnerFunction、ToItemPartnerFunction、ToItemPricingElement、と合わせて利用されます。
+* ToItem（請求伝票 - 明細）
+* ToPartnerFunction（請求伝票 - 取引先）
+* ToItemPartnerFunction（請求伝票 - 明細取引先）
+* ToItemPricingElement（請求伝票 - 明細価格条件）
 * A_BillingDocument('{BillingDocument}')/to_Partner（請求伝票 - 取引先）
-* A_BillingDocumentItem（請求伝票明細）
+* A_BillingDocumentItem（請求伝票明細）※請求伝票の詳細データを取得するために、ToItemPartnerFunction、ToItemPricingElementと合わせて利用されます。
+* ToItemPartnerFunction（請求伝票 - 明細取引先）
+* ToItemPricingElement（請求伝票 - 明細価格条件）
 
 ## API への 値入力条件 の 初期値
 sap-api-integrations-billing-document-reads において、API への値入力条件の初期値は、入力ファイルレイアウトの種別毎に、次の通りとなっています。  
@@ -45,12 +51,12 @@ Latona および AION の SAP 関連リソースでは、Inputs フォルダ下�
 * sample.jsonの記載例(1)  
 
 accepter において 下記の例のように、データの種別（＝APIの種別）を指定します。  
-ここでは、"Header","Item" が指定されています。    
+ここでは、"Header"が指定されています。    
   
 ```
 	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
-	"accepter": ["Header", "Item"],	
-	"billing_document": "90000024",
+	"accepter": ["Header"],	
+	"billing_document": "90000000",
 	"deleted": false
 ```
   
@@ -61,7 +67,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
 ```
 	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
 	"accepter": ["All"],	
-	"billing_document": "90000024",
+	"billing_document": "90000000",
 	"deleted": false
 ```
 
@@ -104,53 +110,60 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction,
 ## Output  
 本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は、SAP 請求伝票 の ヘッダデータ が取得された結果の JSON の例です。  
-以下の項目のうち、"AccountingDocument" ～ "TransactionCurrency" は、/SAP_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+以下の項目のうち、"BillingDocument" ～ "to_Partner" は、/SAP_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
 
 ```
 {
-	"AccountingDocument": "",
-	"AccountingPostingStatus": "C",
-	"AccountingTransferStatus": "C",
-	"BillingDocument": "90000024",
-	"BillingDocumentCategory": "L",
-	"BillingDocumentDate": "/Date(1473811200000)/",
-	"BillingDocumentIsCancelled": false,
-	"BillingDocumentListDate": "",
-	"BillingDocumentListType": "LR",
-	"BillingDocumentType": "F2",
-	"CancelledBillingDocument": "",
-	"CityCode": "",
-	"CompanyCode": "1710",
-	"Country": "US",
-	"CreationDate": "/Date(1473811200000)/",
-	"CreditControlArea": "A000",
-	"CustomerGroup": "",
-	"CustomerPaymentTerms": "0004",
-	"CustomerPriceGroup": "",
-	"DistributionChannel": "10",
-	"Division": "00",
-	"DocumentReferenceID": "0090000024",
-	"ExchangeRateDate": "/Date(1473811200000)/",
-	"ExchangeRateType": "",
-	"IncotermsClassification": "EXW",
-	"InvoiceListStatus": "",
-	"IsExportDelivery": "",
-	"LastChangeDate": "",
-	"OverallBillingStatus": "A",
-	"PartnerCompany": "",
-	"PaymentMethod": "",
-	"PurchaseOrderByCustomer": "",
-	"Region": "CA",
-	"SDDocumentCategory": "M",
-	"SalesOrganization": "1710",
-	"SoldToParty": "USCU-CUS07",
-	"TaxAmount": "0.00",
-	"TotalGrossAmount": "20000.00",
-	"TotalNetAmount": "20000.00",
-	"TransactionCurrency": "USD",
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L54",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L64",
 	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Header",
 	"level": "INFO",
-	"time": "2021-12-03T16:06:24.232148+09:00"
+	"message": [
+		{
+			"BillingDocument": "90000000",
+			"BillingDocumentType": "F2",
+			"SDDocumentCategory": "M",
+			"BillingDocumentCategory": "L",
+			"CreationDate": "/Date(1471392000000)/",
+			"LastChangeDate": "",
+			"SalesOrganization": "1710",
+			"DistributionChannel": "10",
+			"Division": "00",
+			"BillingDocumentDate": "/Date(1471392000000)/",
+			"BillingDocumentIsCancelled": false,
+			"CancelledBillingDocument": "",
+			"IsExportDelivery": "",
+			"TotalNetAmount": "52.65",
+			"TransactionCurrency": "USD",
+			"TaxAmount": "4.21",
+			"TotalGrossAmount": "56.86",
+			"CustomerPriceGroup": "",
+			"IncotermsClassification": "EXW",
+			"CustomerPaymentTerms": "0004",
+			"PaymentMethod": "",
+			"CompanyCode": "1710",
+			"AccountingDocument": "",
+			"ExchangeRateDate": "/Date(1471392000000)/",
+			"ExchangeRateType": "",
+			"DocumentReferenceID": "0090000000",
+			"SoldToParty": "17100001",
+			"PartnerCompany": "",
+			"PurchaseOrderByCustomer": "",
+			"CustomerGroup": "01",
+			"Country": "US",
+			"CityCode": "",
+			"Region": "GA",
+			"CreditControlArea": "A000",
+			"OverallBillingStatus": "A",
+			"AccountingPostingStatus": "C",
+			"AccountingTransferStatus": "C",
+			"InvoiceListStatus": "",
+			"BillingDocumentListType": "LR",
+			"BillingDocumentListDate": "",
+			"to_Item": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocument('90000000')/to_Item",
+			"to_Partner": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocument('90000000')/to_Partner"
+		}
+	],
+	"time": "2022-01-04T15:09:50.73173+09:00"
 }
+
 ```
