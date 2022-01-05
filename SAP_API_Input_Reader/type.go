@@ -144,9 +144,7 @@ type SDC struct {
 				Customer        string `json:"Customer"`
 				Supplier        string `json:"Supplier"`
 			} `json:"ItemPartner"`
-			ItemPricingCondition struct {
-				BillingDocument             string      `json:"BillingDocument"`
-				BillingDocumentItem         string      `json:"BillingDocumentItem"`
+			ItemPricingElement struct {
 				PricingProcedureStep        string      `json:"PricingProcedureStep"`
 				PricingProcedureCounter     string      `json:"PricingProcedureCounter"`
 				ConditionType               string      `json:"ConditionType"`
@@ -169,7 +167,7 @@ type SDC struct {
 				ConditionScaleBasisUnit     string      `json:"ConditionScaleBasisUnit"`
 				ConditionScaleBasisCurrency string      `json:"ConditionScaleBasisCurrency"`
 				ConditionIsManuallyChanged  bool        `json:"ConditionIsManuallyChanged"`
-			} `json:"ItemPricingCondition"`
+			} `json:"ItemPricingElement"`
 		} `json:"BillingDocumentItem"`
 	} `json:"BillingDocument"`
 	APISchema         string   `json:"api_schema"`

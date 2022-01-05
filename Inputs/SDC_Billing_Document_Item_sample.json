@@ -90,9 +90,7 @@
 				"Customer": "",
 				"Supplier": ""
 			},
-			"ItemPricingCondition": {
-				"BillingDocument": "",
-				"BillingDocumentItem": "",
+			"ItemPricingElement": {
 				"PricingProcedureStep": "",
 				"PricingProcedureCounter": "",
 				"ConditionType": "",
