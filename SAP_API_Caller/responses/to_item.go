@@ -147,15 +147,12 @@ type ToItem struct {
 			SalesDocIsCreatedFromReference bool   `json:"SalesDocIsCreatedFromReference"`
 			ShippingPoint                  string `json:"ShippingPoint"`
 			HigherLevelItemUsage           string `json:"HigherLevelItemUsage"`
-			Deferred                       struct {
-				URI string `json:"uri"`
-			} `json:"__deferred"`
-			ToPartner struct {
+			ToItemPartner struct {
 				Deferred struct {
 					URI string `json:"uri"`
 				} `json:"__deferred"`
 			} `json:"to_Partner"`
-			ToPricingElement struct {
+			ToItemPricingElement struct {
 				Deferred struct {
 					URI string `json:"uri"`
 				} `json:"__deferred"`

@@ -58,47 +58,52 @@ type SDC struct {
 	RedisKey        string `json:"redis_key"`
 	Filepath        string `json:"filepath"`
 	BillingDocument struct {
-		BillingDocument            string `json:"BillingDocument"`
-		BillingDocumentType        string `json:"BillingDocumentType"`
-		SDDocumentCategory         string `json:"SDDocumentCategory"`
-		BillingDocumentCategory    string `json:"BillingDocumentCategory"`
-		CreationDate               string `json:"CreationDate"`
-		LastChangeDate             string `json:"LastChangeDate"`
-		SalesOrganization          string `json:"SalesOrganization"`
-		DistributionChannel        string `json:"DistributionChannel"`
-		Division                   string `json:"Division"`
-		BillingDocumentDate        string `json:"BillingDocumentDate"`
-		BillingDocumentIsCancelled bool   `json:"BillingDocumentIsCancelled"`
-		CancelledBillingDocument   string `json:"CancelledBillingDocument"`
-		IsExportDelivery           string `json:"IsExportDelivery"`
-		TotalNetAmount             string `json:"TotalNetAmount"`
-		TransactionCurrency        string `json:"TransactionCurrency"`
-		TaxAmount                  string `json:"TaxAmount"`
-		TotalGrossAmount           string `json:"TotalGrossAmount"`
-		CustomerPriceGroup         string `json:"CustomerPriceGroup"`
-		IncotermsClassification    string `json:"IncotermsClassification"`
-		CustomerPaymentTerms       string `json:"CustomerPaymentTerms"`
-		PaymentMethod              string `json:"PaymentMethod"`
-		CompanyCode                string `json:"CompanyCode"`
-		AccountingDocument         string `json:"AccountingDocument"`
-		ExchangeRateDate           string `json:"ExchangeRateDate"`
-		ExchangeRateType           string `json:"ExchangeRateType"`
-		DocumentReferenceID        string `json:"DocumentReferenceID"`
-		SoldToParty                string `json:"SoldToParty"`
-		PartnerCompany             string `json:"PartnerCompany"`
-		PurchaseOrderByCustomer    string `json:"PurchaseOrderByCustomer"`
-		CustomerGroup              string `json:"CustomerGroup"`
-		Country                    string `json:"Country"`
-		CityCode                   string `json:"CityCode"`
-		Region                     string `json:"Region"`
-		CreditControlArea          string `json:"CreditControlArea"`
-		OverallBillingStatus       string `json:"OverallBillingStatus"`
-		AccountingPostingStatus    string `json:"AccountingPostingStatus"`
-		AccountingTransferStatus   string `json:"AccountingTransferStatus"`
-		InvoiceListStatus          string `json:"InvoiceListStatus"`
-		BillingDocumentListType    string `json:"BillingDocumentListType"`
-		BillingDocumentListDate    string `json:"BillingDocumentListDate"`
-		BillingDocumentItem        struct {
+		BillingDocument            string      `json:"BillingDocument"`
+		BillingDocumentType        string      `json:"BillingDocumentType"`
+		SDDocumentCategory         string      `json:"SDDocumentCategory"`
+		BillingDocumentCategory    string      `json:"BillingDocumentCategory"`
+		CreationDate               string      `json:"CreationDate"`
+		LastChangeDate             string      `json:"LastChangeDate"`
+		SalesOrganization          string      `json:"SalesOrganization"`
+		DistributionChannel        string      `json:"DistributionChannel"`
+		Division                   string      `json:"Division"`
+		BillingDocumentDate        string      `json:"BillingDocumentDate"`
+		BillingDocumentIsCancelled bool        `json:"BillingDocumentIsCancelled"`
+		CancelledBillingDocument   string      `json:"CancelledBillingDocument"`
+		IsExportDelivery           string      `json:"IsExportDelivery"`
+		TotalNetAmount             string      `json:"TotalNetAmount"`
+		TransactionCurrency        string      `json:"TransactionCurrency"`
+		TaxAmount                  string      `json:"TaxAmount"`
+		TotalGrossAmount           string      `json:"TotalGrossAmount"`
+		CustomerPriceGroup         string      `json:"CustomerPriceGroup"`
+		IncotermsClassification    string      `json:"IncotermsClassification"`
+		CustomerPaymentTerms       string      `json:"CustomerPaymentTerms"`
+		PaymentMethod              string      `json:"PaymentMethod"`
+		CompanyCode                string      `json:"CompanyCode"`
+		AccountingDocument         string      `json:"AccountingDocument"`
+		ExchangeRateDate           string      `json:"ExchangeRateDate"`
+		ExchangeRateType           string      `json:"ExchangeRateType"`
+		DocumentReferenceID        string      `json:"DocumentReferenceID"`
+		SoldToParty                string      `json:"SoldToParty"`
+		PartnerCompany             string      `json:"PartnerCompany"`
+		PurchaseOrderByCustomer    string      `json:"PurchaseOrderByCustomer"`
+		CustomerGroup              string      `json:"CustomerGroup"`
+		Country                    string      `json:"Country"`
+		CityCode                   string      `json:"CityCode"`
+		Region                     string      `json:"Region"`
+		CreditControlArea          string      `json:"CreditControlArea"`
+		OverallBillingStatus       string      `json:"OverallBillingStatus"`
+		AccountingPostingStatus    string      `json:"AccountingPostingStatus"`
+		AccountingTransferStatus   string      `json:"AccountingTransferStatus"`
+		InvoiceListStatus          string      `json:"InvoiceListStatus"`
+		BillingDocumentListType    string      `json:"BillingDocumentListType"`
+		BillingDocumentListDate    string      `json:"BillingDocumentListDate"`
+		HeaderPartner              struct {
+			PartnerFunction string `json:"PartnerFunction"`
+			Customer        string `json:"Customer"`
+			Supplier        string `json:"Supplier"`
+		} `json:"HeaderPartner"`
+		BillingDocumentItem struct {
 			BillingDocumentItem          string `json:"BillingDocumentItem"`
 			SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
 			ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
@@ -111,7 +116,7 @@ type SDC struct {
 			Plant                        string `json:"Plant"`
 			StorageLocation              string `json:"StorageLocation"`
 			BillingDocumentItemText      string `json:"BillingDocumentItemText"`
-			BillingQuantity              string  `json:"BillingQuantity"`
+			BillingQuantity              string `json:"BillingQuantity"`
 			BillingQuantityUnit          string `json:"BillingQuantityUnit"`
 			NetAmount                    string `json:"NetAmount"`
 			TransactionCurrency          string `json:"TransactionCurrency"`
@@ -134,15 +139,41 @@ type SDC struct {
 			SalesDocumentItem            string `json:"SalesDocumentItem"`
 			SDDocumentReason             string `json:"SDDocumentReason"`
 			ShippingPoint                string `json:"ShippingPoint"`
-		} `json:"BillingDocumentItem" `
-		PartnerFunction struct {
-			PartnerFunction string `json:"PartnerFunction"`
-			Customer        string `json:"Customer"`
-			Supplier        string `json:"Supplier"`
-		} `json:"PartnerFunction"`
+			ItemPartner                  struct {
+				PartnerFunction string `json:"PartnerFunction"`
+				Customer        string `json:"Customer"`
+				Supplier        string `json:"Supplier"`
+			} `json:"ItemPartner"`
+			ItemPricingCondition struct {
+				BillingDocument             string      `json:"BillingDocument"`
+				BillingDocumentItem         string      `json:"BillingDocumentItem"`
+				PricingProcedureStep        string      `json:"PricingProcedureStep"`
+				PricingProcedureCounter     string      `json:"PricingProcedureCounter"`
+				ConditionType               string      `json:"ConditionType"`
+				PricingDateTime             string      `json:"PricingDateTime"`
+				ConditionCalculationType    string      `json:"ConditionCalculationType"`
+				ConditionBaseValue          string      `json:"ConditionBaseValue"`
+				ConditionRateValue          string      `json:"ConditionRateValue"`
+				ConditionCurrency           string      `json:"ConditionCurrency"`
+				ConditionQuantity           string      `json:"ConditionQuantity"`
+				ConditionQuantityUnit       string      `json:"ConditionQuantityUnit"`
+				ConditionCategory           string      `json:"ConditionCategory"`
+				PricingScaleType            string      `json:"PricingScaleType"`
+				ConditionRecord             string      `json:"ConditionRecord"`
+				ConditionSequentialNumber   string      `json:"ConditionSequentialNumber"`
+				TaxCode                     string      `json:"TaxCode"`
+				ConditionAmount             string      `json:"ConditionAmount"`
+				TransactionCurrency         string      `json:"TransactionCurrency"`
+				PricingScaleBasis           string      `json:"PricingScaleBasis"`
+				ConditionScaleBasisValue    string      `json:"ConditionScaleBasisValue"`
+				ConditionScaleBasisUnit     string      `json:"ConditionScaleBasisUnit"`
+				ConditionScaleBasisCurrency string      `json:"ConditionScaleBasisCurrency"`
+				ConditionIsManuallyChanged  bool        `json:"ConditionIsManuallyChanged"`
+			} `json:"ItemPricingCondition"`
+		} `json:"BillingDocumentItem"`
 	} `json:"BillingDocument"`
-	APISchema       string `json:"api_schema"`
-	Accepter       []string `json:"accepter"`
-	SDDocument      string `json:"billing_document"`
-	Deleted         bool   `json:"deleted"`
+	APISchema         string   `json:"api_schema"`
+	Accepter          []string `json:"accepter"`
+	BillingDocumentNo string   `json:"billing_document"`
+	Deleted           bool     `json:"deleted"`
 }

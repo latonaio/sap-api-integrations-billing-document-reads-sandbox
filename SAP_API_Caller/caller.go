@@ -26,7 +26,7 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction, billingDocumentItem string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFunction, billingDocumentItem, itemPartnerFunction string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
@@ -36,9 +36,9 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction,
 				c.Header(billingDocument)
 				wg.Done()
 			}()
-		case "PartnerFunction":
+		case "HeaderPartner":
 			func() {
-				c.PartnerFunction(billingDocument, partnerFunction)
+				c.HeaderPartner(billingDocument, headerPartnerFunction)
 				wg.Done()
 			}()
 		case "Item":
@@ -46,12 +46,15 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction,
 				c.Item(billingDocument, billingDocumentItem)
 				wg.Done()
 			}()
-
+		case "ItemPartner":
+			func() {
+				c.ItemPartner(billingDocument, billingDocumentItem, itemPartnerFunction)
+				wg.Done()
+			}()
 		default:
 			wg.Done()
 		}
 	}
-
 	wg.Wait()
 }
 
@@ -62,6 +65,13 @@ func (c *SAPAPICaller) Header(billingDocument string) {
 		return
 	}
 	c.log.Info(headerData)
+	
+	headerPartnerData, err := c.callToHeaderPartner(headerData[0].ToHeaderPartner)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(headerPartnerData)
 
 	itemData, err := c.callToItem(headerData[0].ToItem)
 	if err != nil {
@@ -70,19 +80,12 @@ func (c *SAPAPICaller) Header(billingDocument string) {
 	}
 	c.log.Info(itemData)
 
-	partnerFunctionData, err := c.callToPartnerFunction(headerData[0].ToPartnerFunction)
+	itemPartnerData, err := c.callToItemPartner(itemData[0].ToItemPartner)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
-	c.log.Info(partnerFunctionData)
-
-	itemPartnerFunctionData, err := c.callToItemPartnerFunction(itemData[0].ToItemPartnerFunction)
-	if err != nil {
-		c.log.Error(err)
-		return
-	}
-	c.log.Info(itemPartnerFunctionData)
+	c.log.Info(itemPartnerData)
 
 	itemPricingElementData, err := c.callToItemPricingElement(itemData[0].ToItemPricingElement)
 	if err != nil {
@@ -113,6 +116,24 @@ func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementHeader(api, billingDo
 	return data, nil
 }
 
+func (c *SAPAPICaller) callToHeaderPartner(url string) ([]sap_api_output_formatter.ToHeaderPartner, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToHeaderPartner(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
 func (c *SAPAPICaller) callToItem(url string) ([]sap_api_output_formatter.ToItem, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
@@ -131,7 +152,7 @@ func (c *SAPAPICaller) callToItem(url string) ([]sap_api_output_formatter.ToItem
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPartnerFunction(url string) ([]sap_api_output_formatter.ToPartnerFunction, error) {
+func (c *SAPAPICaller) callToItemPartner(url string) ([]sap_api_output_formatter.ToItemPartner, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
@@ -142,25 +163,7 @@ func (c *SAPAPICaller) callToPartnerFunction(url string) ([]sap_api_output_forma
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToPartnerFunction(byteArray, c.log)
-	if err != nil {
-		return nil, xerrors.Errorf("convert error: %w", err)
-	}
-	return data, nil
-}
-
-func (c *SAPAPICaller) callToItemPartnerFunction(url string) ([]sap_api_output_formatter.ToItemPartnerFunction, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	c.setHeaderAPIKeyAccept(req)
-
-	resp, err := new(http.Client).Do(req)
-	if err != nil {
-		return nil, xerrors.Errorf("API request error: %w", err)
-	}
-	defer resp.Body.Close()
-
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToItemPartnerFunction(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToToItemPartner(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
@@ -185,8 +188,8 @@ func (c *SAPAPICaller) callToItemPricingElement(url string) ([]sap_api_output_fo
 	return data, nil
 }
 
-func (c *SAPAPICaller) PartnerFunction(billingDocument, partnerFunction string) {
-	data, err := c.callBillingDocumentSrvAPIRequirementPartnerFunction(fmt.Sprintf("A_BillingDocument('%s')/to_Partner", billingDocument), billingDocument, partnerFunction)
+func (c *SAPAPICaller) HeaderPartner(billingDocument, partnerFunction string) {
+	data, err := c.callBillingDocumentSrvAPIRequirementHeaderPartner("A_BillingDocumentPartner", billingDocument, partnerFunction)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -194,12 +197,12 @@ func (c *SAPAPICaller) PartnerFunction(billingDocument, partnerFunction string) 
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementPartnerFunction(api, billingDocument, partnerFunction string) ([]sap_api_output_formatter.PartnerFunction, error) {
+func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementHeaderPartner(api, billingDocument, partnerFunction string) ([]sap_api_output_formatter.HeaderPartner, error) {
 	url := strings.Join([]string{c.baseURL, "API_BILLING_DOCUMENT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
 	c.setHeaderAPIKeyAccept(req)
-	c.getQueryWithPartnerFunction(req, billingDocument, partnerFunction)
+	c.getQueryWithHeaderPartner(req, billingDocument, partnerFunction)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
@@ -208,7 +211,7 @@ func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementPartnerFunction(api, 
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToPartnerFunction(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToHeaderPartner(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
@@ -223,12 +226,12 @@ func (c *SAPAPICaller) Item(billingDocument, billingDocumentItem string) {
 	}
 	c.log.Info(itemData)
 
-	itemPartnerFunctionData, err := c.callToItemPartnerFunction(itemData[0].ToItemPartnerFunction)
+	itemPartnerData, err := c.callToItemPartner(itemData[0].ToItemPartner)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
-	c.log.Info(itemPartnerFunctionData)
+	c.log.Info(itemPartnerData)
 
 	itemPricingElementData, err := c.callToItemPricingElement(itemData[0].ToItemPricingElement)
 	if err != nil {
@@ -259,27 +262,21 @@ func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementItem(api, billingDocu
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToItemPartnerFunction2(url string) ([]sap_api_output_formatter.ToItemPartnerFunction, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	c.setHeaderAPIKeyAccept(req)
-
-	resp, err := new(http.Client).Do(req)
+func (c *SAPAPICaller) ItemPartner(billingDocument, billingDocumentItem, partnerFunction string) {
+	data, err := c.callBillingDocumentSrvAPIRequirementItemPartner("A_BillingDocumentItemPartner", billingDocument, billingDocumentItem, partnerFunction)
 	if err != nil {
-		return nil, xerrors.Errorf("API request error: %w", err)
+		c.log.Error(err)
+		return
 	}
-	defer resp.Body.Close()
-
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToItemPartnerFunction(byteArray, c.log)
-	if err != nil {
-		return nil, xerrors.Errorf("convert error: %w", err)
-	}
-	return data, nil
+	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callToItemPricingElement2(url string) ([]sap_api_output_formatter.ToItemPricingElement, error) {
+func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementItemPartner(api, billingDocument, billingDocumentItem, partnerFunction string) ([]sap_api_output_formatter.ItemPartner, error) {
+	url := strings.Join([]string{c.baseURL, "API_BILLING_DOCUMENT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
+
 	c.setHeaderAPIKeyAccept(req)
+	c.getQueryWithItemPartner(req, billingDocument, billingDocumentItem, partnerFunction)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
@@ -288,7 +285,7 @@ func (c *SAPAPICaller) callToItemPricingElement2(url string) ([]sap_api_output_f
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToItemPricingElement(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToItemPartner(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
@@ -306,7 +303,7 @@ func (c *SAPAPICaller) getQueryWithHeader(req *http.Request, billingDocument str
 	req.URL.RawQuery = params.Encode()
 }
 
-func (c *SAPAPICaller) getQueryWithPartnerFunction(req *http.Request, billingDocument, partnerFunction string) {
+func (c *SAPAPICaller) getQueryWithHeaderPartner(req *http.Request, billingDocument, partnerFunction string) {
 	params := req.URL.Query()
 	params.Add("$filter", fmt.Sprintf("BillingDocument eq '%s' and PartnerFunction eq '%s'", billingDocument, partnerFunction))
 	req.URL.RawQuery = params.Encode()
@@ -315,5 +312,11 @@ func (c *SAPAPICaller) getQueryWithPartnerFunction(req *http.Request, billingDoc
 func (c *SAPAPICaller) getQueryWithItem(req *http.Request, billingDocument, billingDocumentItem string) {
 	params := req.URL.Query()
 	params.Add("$filter", fmt.Sprintf("BillingDocument eq '%s' and BillingDocumentItem eq '%s'", billingDocument, billingDocumentItem))
+	req.URL.RawQuery = params.Encode()
+}
+
+func (c *SAPAPICaller) getQueryWithItemPartner(req *http.Request, billingDocument, billingDocumentItem, partnerFunction string) {
+	params := req.URL.Query()
+	params.Add("$filter", fmt.Sprintf("BillingDocument eq '%s' and BillingDocumentItem eq '%s' and PartnerFunction eq '%s'", billingDocument, billingDocumentItem, partnerFunction))
 	req.URL.RawQuery = params.Encode()
 }

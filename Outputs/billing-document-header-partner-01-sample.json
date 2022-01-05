@@ -1,0 +1,14 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L197",
+	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).HeaderPartner",
+	"level": "INFO",
+	"message": [
+		{
+			"BillingDocument": "90000000",
+			"PartnerFunction": "SP",
+			"Customer": "17100001",
+			"Supplier": ""
+		}
+	],
+	"time": "2022-01-05T10:51:40.02776+09:00"
+}

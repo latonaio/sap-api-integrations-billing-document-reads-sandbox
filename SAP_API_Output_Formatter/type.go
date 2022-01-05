@@ -52,10 +52,10 @@ type Header struct {
 	BillingDocumentListType    string `json:"BillingDocumentListType"`
 	BillingDocumentListDate    string `json:"BillingDocumentListDate"`
 	ToItem                     string `json:"to_Item"`
-	ToPartnerFunction          string `json:"to_Partner"`
+	ToHeaderPartner            string `json:"to_Partner"`
 }
 
-type PartnerFunction struct {
+type HeaderPartner struct {
 	BillingDocument string `json:"BillingDocument"`
 	PartnerFunction string `json:"PartnerFunction"`
 	Customer        string `json:"Customer"`
@@ -98,11 +98,19 @@ type Item struct {
 	SalesDocumentItem            string `json:"SalesDocumentItem"`
 	SDDocumentReason             string `json:"SDDocumentReason"`
 	ShippingPoint                string `json:"ShippingPoint"`
-	ToItemPartnerFunction        string `json:"to_Partner"`
+	ToItemPartner                string `json:"to_Partner"`
 	ToItemPricingElement         string `json:"to_PricingElement"`
 }
 
-type ToPartnerFunction struct {
+type ItemPartner struct {
+	BillingDocument     string `json:"BillingDocument"`
+	BillingDocumentItem string `json:"BillingDocumentItem"`
+	PartnerFunction     string `json:"PartnerFunction"`
+	Customer            string `json:"Customer"`
+	Supplier            string `json:"Supplier"`
+}
+
+type ToHeaderPartner struct {
 	BillingDocument string `json:"BillingDocument"`
 	PartnerFunction string `json:"PartnerFunction"`
 	Customer        string `json:"Customer"`
@@ -110,150 +118,46 @@ type ToPartnerFunction struct {
 }
 
 type ToItem struct {
-	BillingDocument                string `json:"BillingDocument"`
-	BillingDocumentItem            string `json:"BillingDocumentItem"`
-	SalesDocumentItemCategory      string `json:"SalesDocumentItemCategory"`
-	SalesDocumentItemType          string `json:"SalesDocumentItemType"`
-	ReturnItemProcessingType       string `json:"ReturnItemProcessingType"`
-	CreatedByUser                  string `json:"CreatedByUser"`
-	CreationDate                   string `json:"CreationDate"`
-	CreationTime                   string `json:"CreationTime"`
-	ReferenceLogicalSystem         string `json:"ReferenceLogicalSystem"`
-	OrganizationDivision           string `json:"OrganizationDivision"`
-	Division                       string `json:"Division"`
-	SalesOffice                    string `json:"SalesOffice"`
-	Material                       string `json:"Material"`
-	OriginallyRequestedMaterial    string `json:"OriginallyRequestedMaterial"`
-	InternationalArticleNumber     string `json:"InternationalArticleNumber"`
-	PricingReferenceMaterial       string `json:"PricingReferenceMaterial"`
-	Batch                          string `json:"Batch"`
-	ProductHierarchyNode           string `json:"ProductHierarchyNode"`
-	MaterialGroup                  string `json:"MaterialGroup"`
-	AdditionalMaterialGroup1       string `json:"AdditionalMaterialGroup1"`
-	AdditionalMaterialGroup2       string `json:"AdditionalMaterialGroup2"`
-	AdditionalMaterialGroup3       string `json:"AdditionalMaterialGroup3"`
-	AdditionalMaterialGroup4       string `json:"AdditionalMaterialGroup4"`
-	AdditionalMaterialGroup5       string `json:"AdditionalMaterialGroup5"`
-	MaterialCommissionGroup        string `json:"MaterialCommissionGroup"`
-	Plant                          string `json:"Plant"`
-	StorageLocation                string `json:"StorageLocation"`
-	ReplacementPartType            string `json:"ReplacementPartType"`
-	MaterialGroupHierarchy1        string `json:"MaterialGroupHierarchy1"`
-	MaterialGroupHierarchy2        string `json:"MaterialGroupHierarchy2"`
-	PlantRegion                    string `json:"PlantRegion"`
-	PlantCounty                    string `json:"PlantCounty"`
-	PlantCity                      string `json:"PlantCity"`
-	BOMExplosion                   string `json:"BOMExplosion"`
-	MaterialDeterminationType      string `json:"MaterialDeterminationType"`
-	BillingDocumentItemText        string `json:"BillingDocumentItemText"`
-	ServicesRenderedDate           string `json:"ServicesRenderedDate"`
-	BillingQuantity                string `json:"BillingQuantity"`
-	BillingQuantityUnit            string `json:"BillingQuantityUnit"`
-	BillingQuantityInBaseUnit      string `json:"BillingQuantityInBaseUnit"`
-	BaseUnit                       string `json:"BaseUnit"`
-	MRPRequiredQuantityInBaseUnit  string `json:"MRPRequiredQuantityInBaseUnit"`
-	BillingToBaseQuantityDnmntr    string `json:"BillingToBaseQuantityDnmntr"`
-	BillingToBaseQuantityNmrtr     string `json:"BillingToBaseQuantityNmrtr"`
-	ItemGrossWeight                string `json:"ItemGrossWeight"`
-	ItemNetWeight                  string `json:"ItemNetWeight"`
-	ItemWeightUnit                 string `json:"ItemWeightUnit"`
-	ItemVolume                     string `json:"ItemVolume"`
-	ItemVolumeUnit                 string `json:"ItemVolumeUnit"`
-	BillToPartyCountry             string `json:"BillToPartyCountry"`
-	BillToPartyRegion              string `json:"BillToPartyRegion"`
-	BillingPlanRule                string `json:"BillingPlanRule"`
-	BillingPlan                    string `json:"BillingPlan"`
-	BillingPlanItem                string `json:"BillingPlanItem"`
-	NetAmount                      string `json:"NetAmount"`
-	TransactionCurrency            string `json:"TransactionCurrency"`
-	GrossAmount                    string `json:"GrossAmount"`
-	PricingDate                    string `json:"PricingDate"`
-	AbsltPriceDetnExchangeRate     string `json:"AbsltPriceDetnExchangeRate"`
-	PriceDetnExchRateIsIndrctQtan  bool   `json:"PriceDetnExchRateIsIndrctQtan"`
-	PriceDetnExchangeRateDate      string `json:"PriceDetnExchangeRateDate"`
-	PricingScaleQuantityInBaseUnit string `json:"PricingScaleQuantityInBaseUnit"`
-	TaxAmount                      string `json:"TaxAmount"`
-	CostAmount                     string `json:"CostAmount"`
-	Subtotal1Amount                string `json:"Subtotal1Amount"`
-	Subtotal2Amount                string `json:"Subtotal2Amount"`
-	Subtotal3Amount                string `json:"Subtotal3Amount"`
-	Subtotal4Amount                string `json:"Subtotal4Amount"`
-	Subtotal5Amount                string `json:"Subtotal5Amount"`
-	Subtotal6Amount                string `json:"Subtotal6Amount"`
-	StatisticalValueControl        string `json:"StatisticalValueControl"`
-	CashDiscountIsDeductible       bool   `json:"CashDiscountIsDeductible"`
-	CustomerConditionGroup1        string `json:"CustomerConditionGroup1"`
-	CustomerConditionGroup2        string `json:"CustomerConditionGroup2"`
-	CustomerConditionGroup3        string `json:"CustomerConditionGroup3"`
-	CustomerConditionGroup4        string `json:"CustomerConditionGroup4"`
-	CustomerConditionGroup5        string `json:"CustomerConditionGroup5"`
-	ManualPriceChangeType          string `json:"ManualPriceChangeType"`
-	MaterialPricingGroup           string `json:"MaterialPricingGroup"`
-	AbsltStatisticsExchangeRate    string `json:"AbsltStatisticsExchangeRate"`
-	StatisticsExchRateIsIndrctQtan bool   `json:"StatisticsExchRateIsIndrctQtan"`
-	MainItemPricingRefMaterial     string `json:"MainItemPricingRefMaterial"`
-	MainItemMaterialPricingGroup   string `json:"MainItemMaterialPricingGroup"`
-	DepartureCountry               string `json:"DepartureCountry"`
-	TaxJurisdiction                string `json:"TaxJurisdiction"`
-	ProductTaxClassification1      string `json:"ProductTaxClassification1"`
-	ProductTaxClassification2      string `json:"ProductTaxClassification2"`
-	ProductTaxClassification3      string `json:"ProductTaxClassification3"`
-	ProductTaxClassification4      string `json:"ProductTaxClassification4"`
-	ProductTaxClassification5      string `json:"ProductTaxClassification5"`
-	ProductTaxClassification6      string `json:"ProductTaxClassification6"`
-	ProductTaxClassification7      string `json:"ProductTaxClassification7"`
-	ProductTaxClassification8      string `json:"ProductTaxClassification8"`
-	ProductTaxClassification9      string `json:"ProductTaxClassification9"`
-	ZeroVATRsn                     string `json:"ZeroVATRsn"`
-	EligibleAmountForCashDiscount  string `json:"EligibleAmountForCashDiscount"`
-	BusinessArea                   string `json:"BusinessArea"`
-	ProfitCenter                   string `json:"ProfitCenter"`
-	WBSElement                     string `json:"WBSElement"`
-	ControllingArea                string `json:"ControllingArea"`
-	ProfitabilitySegment           string `json:"ProfitabilitySegment"`
-	OrderID                        string `json:"OrderID"`
-	CostCenter                     string `json:"CostCenter"`
-	OriginSDDocument               string `json:"OriginSDDocument"`
-	OriginSDDocumentItem           string `json:"OriginSDDocumentItem"`
-	MatlAccountAssignmentGroup     string `json:"MatlAccountAssignmentGroup"`
-	ReferenceSDDocument            string `json:"ReferenceSDDocument"`
-	ReferenceSDDocumentItem        string `json:"ReferenceSDDocumentItem"`
-	ReferenceSDDocumentCategory    string `json:"ReferenceSDDocumentCategory"`
-	SalesDocument                  string `json:"SalesDocument"`
-	SalesDocumentItem              string `json:"SalesDocumentItem"`
-	SalesSDDocumentCategory        string `json:"SalesSDDocumentCategory"`
-	HigherLevelItem                string `json:"HigherLevelItem"`
-	BillingDocumentItemInPartSgmt  string `json:"BillingDocumentItemInPartSgmt"`
-	ExternalReferenceDocument      string `json:"ExternalReferenceDocument"`
-	ExternalReferenceDocumentItem  string `json:"ExternalReferenceDocumentItem"`
-	SalesGroup                     string `json:"SalesGroup"`
-	AdditionalCustomerGroup1       string `json:"AdditionalCustomerGroup1"`
-	AdditionalCustomerGroup2       string `json:"AdditionalCustomerGroup2"`
-	AdditionalCustomerGroup3       string `json:"AdditionalCustomerGroup3"`
-	AdditionalCustomerGroup4       string `json:"AdditionalCustomerGroup4"`
-	AdditionalCustomerGroup5       string `json:"AdditionalCustomerGroup5"`
-	SDDocumentReason               string `json:"SDDocumentReason"`
-	RetailPromotion                string `json:"RetailPromotion"`
-	RebateBasisAmount              string `json:"RebateBasisAmount"`
-	VolumeRebateGroup              string `json:"VolumeRebateGroup"`
-	ItemIsRelevantForCredit        bool   `json:"ItemIsRelevantForCredit"`
-	CreditRelatedPrice             string `json:"CreditRelatedPrice"`
-	SalesDeal                      string `json:"SalesDeal"`
-	SalesPromotion                 string `json:"SalesPromotion"`
-	SalesOrderSalesDistrict        string `json:"SalesOrderSalesDistrict"`
-	SalesOrderCustomerGroup        string `json:"SalesOrderCustomerGroup"`
-	SalesOrderCustomerPriceGroup   string `json:"SalesOrderCustomerPriceGroup"`
-	SalesOrderPriceListType        string `json:"SalesOrderPriceListType"`
-	SalesOrderSalesOrganization    string `json:"SalesOrderSalesOrganization"`
-	SalesOrderDistributionChannel  string `json:"SalesOrderDistributionChannel"`
-	SalesDocIsCreatedFromReference bool   `json:"SalesDocIsCreatedFromReference"`
-	ShippingPoint                  string `json:"ShippingPoint"`
-	HigherLevelItemUsage           string `json:"HigherLevelItemUsage"`
-	ToItemPartnerFunction          string `json:"to_Partner"`
-	ToItemPricingElement           string `json:"to_PricingElement"`
+	BillingDocumentItem          string `json:"BillingDocumentItem"`
+	SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
+	ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
+	CreationDate                 string `json:"CreationDate"`
+	Division                     string `json:"Division"`
+	Material                     string `json:"Material"`
+	InternationalArticleNumber   string `json:"InternationalArticleNumber"`
+	Batch                        string `json:"Batch"`
+	MaterialGroup                string `json:"MaterialGroup"`
+	Plant                        string `json:"Plant"`
+	StorageLocation              string `json:"StorageLocation"`
+	BillingDocumentItemText      string `json:"BillingDocumentItemText"`
+	BillingQuantity              string `json:"BillingQuantity"`
+	BillingQuantityUnit          string `json:"BillingQuantityUnit"`
+	NetAmount                    string `json:"NetAmount"`
+	TransactionCurrency          string `json:"TransactionCurrency"`
+	GrossAmount                  string `json:"GrossAmount"`
+	PricingDate                  string `json:"PricingDate"`
+	TaxAmount                    string `json:"TaxAmount"`
+	MaterialPricingGroup         string `json:"MaterialPricingGroup"`
+	MainItemMaterialPricingGroup string `json:"MainItemMaterialPricingGroup"`
+	BusinessArea                 string `json:"BusinessArea"`
+	ProfitCenter                 string `json:"ProfitCenter"`
+	WBSElement                   string `json:"WBSElement"`
+	ControllingArea              string `json:"ControllingArea"`
+	ProfitabilitySegment         string `json:"ProfitabilitySegment"`
+	OrderID                      string `json:"OrderID"`
+	CostCenter                   string `json:"CostCenter"`
+	ReferenceSDDocument          string `json:"ReferenceSDDocument"`
+	ReferenceSDDocumentItem      string `json:"ReferenceSDDocumentItem"`
+	MatlAccountAssignmentGroup   string `json:"MatlAccountAssignmentGroup"`
+	SalesDocument                string `json:"SalesDocument"`
+	SalesDocumentItem            string `json:"SalesDocumentItem"`
+	SDDocumentReason             string `json:"SDDocumentReason"`
+	ShippingPoint                string `json:"ShippingPoint"`
+	ToItemPartner                string `json:"to_Partner"`
+	ToItemPricingElement         string `json:"to_PricingElement"`
 }
 
-type ToItemPartnerFunction struct {
+type ToItemPartner struct {
 	BillingDocument     string `json:"BillingDocument"`
 	BillingDocumentItem string `json:"BillingDocumentItem"`
 	PartnerFunction     string `json:"PartnerFunction"`
@@ -275,32 +179,15 @@ type ToItemPricingElement struct {
 	ConditionQuantity             string `json:"ConditionQuantity"`
 	ConditionQuantityUnit         string `json:"ConditionQuantityUnit"`
 	ConditionCategory             string `json:"ConditionCategory"`
-	ConditionIsForStatistics      bool   `json:"ConditionIsForStatistics"`
 	PricingScaleType              string `json:"PricingScaleType"`
-	IsRelevantForAccrual          bool   `json:"IsRelevantForAccrual"`
-	CndnIsRelevantForInvoiceList  string `json:"CndnIsRelevantForInvoiceList"`
-	ConditionOrigin               string `json:"ConditionOrigin"`
-	IsGroupCondition              string `json:"IsGroupCondition"`
 	ConditionRecord               string `json:"ConditionRecord"`
 	ConditionSequentialNumber     string `json:"ConditionSequentialNumber"`
 	TaxCode                       string `json:"TaxCode"`
-	WithholdingTaxCode            string `json:"WithholdingTaxCode"`
-	CndnRoundingOffDiffAmount     string `json:"CndnRoundingOffDiffAmount"`
 	ConditionAmount               string `json:"ConditionAmount"`
 	TransactionCurrency           string `json:"TransactionCurrency"`
-	ConditionControl              string `json:"ConditionControl"`
-	ConditionInactiveReason       string `json:"ConditionInactiveReason"`
-	ConditionClass                string `json:"ConditionClass"`
-	PrcgProcedureCounterForHeader string `json:"PrcgProcedureCounterForHeader"`
-	FactorForConditionBasisValue  string `json:"FactorForConditionBasisValue"`
-	StructureCondition            string `json:"StructureCondition"`
-	PeriodFactorForCndnBasisValue string `json:"PeriodFactorForCndnBasisValue"`
 	PricingScaleBasis             string `json:"PricingScaleBasis"`
 	ConditionScaleBasisValue      string `json:"ConditionScaleBasisValue"`
 	ConditionScaleBasisUnit       string `json:"ConditionScaleBasisUnit"`
 	ConditionScaleBasisCurrency   string `json:"ConditionScaleBasisCurrency"`
-	CndnIsRelevantForIntcoBilling bool   `json:"CndnIsRelevantForIntcoBilling"`
 	ConditionIsManuallyChanged    bool   `json:"ConditionIsManuallyChanged"`
-	ConditionIsForConfiguration   bool   `json:"ConditionIsForConfiguration"`
-	VariantCondition              string `json:"VariantCondition"`
 }

@@ -48,16 +48,16 @@ type Header struct {
 			InvoiceListStatus          string `json:"InvoiceListStatus"`
 			BillingDocumentListType    string `json:"BillingDocumentListType"`
 			BillingDocumentListDate    string `json:"BillingDocumentListDate"`
+			ToHeaderPartner struct {
+				Deferred struct {
+					URI string `json:"uri"`
+				} `json:"__deferred"`
+			} `json:"to_Partner"`
 			ToItem                     struct {
 				Deferred struct {
 					URI string `json:"uri"`
 				} `json:"__deferred"`
 			} `json:"to_Item"`
-			ToPartnerFunction struct {
-				Deferred struct {
-					URI string `json:"uri"`
-				} `json:"__deferred"`
-			} `json:"to_Partner"`
 		} `json:"results"`
 	} `json:"d"`
 }

@@ -10,7 +10,7 @@ import (
 func main() {
 	l := logger.NewLogger()
 	fr := sap_api_input_reader.NewFileReader()
-	inoutSDC := fr.ReadSDC("./Inputs/SDC_Billing_Document_Partner_Function_sample.json")
+	inoutSDC := fr.ReadSDC("./Inputs/SDC_Billing_Document_Header_sample.json")
 	caller := sap_api_caller.NewSAPAPICaller(
 		"https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/", l,
 	)
@@ -18,14 +18,15 @@ func main() {
 	accepter := inoutSDC.Accepter
 	if len(accepter) == 0 || accepter[0] == "All" {
 		accepter = []string{
-			"Header", "PartnerFunction", "Item",
+			"Header", "HeaderPartner", "Item", "ItemPartner",
 		}
 	}
 
 	caller.AsyncGetBillingDocument(
 		inoutSDC.BillingDocument.BillingDocument,
-		inoutSDC.BillingDocument.PartnerFunction.PartnerFunction,
+		inoutSDC.BillingDocument.HeaderPartner.PartnerFunction,
 		inoutSDC.BillingDocument.BillingDocumentItem.BillingDocumentItem,
+		inoutSDC.BillingDocument.BillingDocumentItem.ItemPartner.PartnerFunction,
 		accepter,
 	)
 }

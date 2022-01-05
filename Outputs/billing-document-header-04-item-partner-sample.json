@@ -1,5 +1,5 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L85",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L88",
 	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Header",
 	"level": "INFO",
 	"message": [
@@ -11,5 +11,5 @@
 			"Supplier": ""
 		}
 	],
-	"time": "2022-01-04T15:09:52.644822+09:00"
+	"time": "2022-01-05T10:48:06.064598+09:00"
 }

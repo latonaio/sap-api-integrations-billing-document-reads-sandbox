@@ -66,7 +66,7 @@ func ConvertToHeader(raw []byte, l *logger.Logger) ([]Header, error) {
 			InvoiceListStatus:          data.InvoiceListStatus,
 			BillingDocumentListType:    data.BillingDocumentListType,
 			BillingDocumentListDate:    data.BillingDocumentListDate,
-			ToPartnerFunction:          data.ToPartnerFunction.Deferred.URI,
+			ToHeaderPartner:            data.ToHeaderPartner.Deferred.URI,
 			ToItem:                     data.ToItem.Deferred.URI,
 		})
 	}
@@ -74,12 +74,12 @@ func ConvertToHeader(raw []byte, l *logger.Logger) ([]Header, error) {
 	return header, nil
 }
 
-func ConvertToPartnerFunction(raw []byte, l *logger.Logger) ([]PartnerFunction, error) {
-	pm := &responses.ToPartnerFunction{}
+func ConvertToHeaderPartner(raw []byte, l *logger.Logger) ([]HeaderPartner, error) {
+	pm := &responses.HeaderPartner{}
 
 	err := json.Unmarshal(raw, pm)
 	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to ToPartnerFunction. unmarshal error: %w", err)
+		return nil, xerrors.Errorf("cannot convert to HeaderPartner. unmarshal error: %w", err)
 	}
 	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
@@ -88,10 +88,10 @@ func ConvertToPartnerFunction(raw []byte, l *logger.Logger) ([]PartnerFunction, 
 		l.Info("raw data has too many Results. %d Results exist. show the first 10 of Results array", len(pm.D.Results))
 	}
 
-	partnerFunction := make([]PartnerFunction, 0, 10)
+	headerPartner := make([]HeaderPartner, 0, 10)
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
-		partnerFunction = append(partnerFunction, PartnerFunction{
+		headerPartner = append(headerPartner, HeaderPartner{
 			BillingDocument: data.BillingDocument,
 			PartnerFunction: data.PartnerFunction,
 			Customer:        data.Customer,
@@ -99,7 +99,7 @@ func ConvertToPartnerFunction(raw []byte, l *logger.Logger) ([]PartnerFunction, 
 		})
 	}
 
-	return partnerFunction, nil
+	return headerPartner, nil
 }
 
 func ConvertToItem(raw []byte, l *logger.Logger) ([]Item, error) {
@@ -155,7 +155,7 @@ func ConvertToItem(raw []byte, l *logger.Logger) ([]Item, error) {
 			SalesDocumentItem:            data.SalesDocumentItem,
 			SDDocumentReason:             data.SDDocumentReason,
 			ShippingPoint:                data.ShippingPoint,
-			ToItemPartnerFunction:        data.ToItemPartnerFunction.Deferred.URI,
+			ToItemPartner:                data.ToItemPartner.Deferred.URI,
 			ToItemPricingElement:         data.ToItemPricingElement.Deferred.URI,
 		})
 	}
@@ -163,12 +163,12 @@ func ConvertToItem(raw []byte, l *logger.Logger) ([]Item, error) {
 	return item, nil
 }
 
-func ConvertToToPartnerFunction(raw []byte, l *logger.Logger) ([]ToPartnerFunction, error) {
-	pm := &responses.ToPartnerFunction{}
+func ConvertToItemPartner(raw []byte, l *logger.Logger) ([]ItemPartner, error) {
+	pm := &responses.ItemPartner{}
 
 	err := json.Unmarshal(raw, pm)
 	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to ToPartnerFunction. unmarshal error: %w", err)
+		return nil, xerrors.Errorf("cannot convert to ItemPartner. unmarshal error: %w", err)
 	}
 	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
@@ -177,10 +177,39 @@ func ConvertToToPartnerFunction(raw []byte, l *logger.Logger) ([]ToPartnerFuncti
 		l.Info("raw data has too many Results. %d Results exist. show the first 10 of Results array", len(pm.D.Results))
 	}
 
-	toPartnerFunction := make([]ToPartnerFunction, 0, 10)
+	itemPartner := make([]ItemPartner, 0, 10)
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
-		toPartnerFunction = append(toPartnerFunction, ToPartnerFunction{
+		itemPartner = append(itemPartner, ItemPartner{
+			BillingDocument:     data.BillingDocument,
+			BillingDocumentItem: data.BillingDocumentItem,
+			PartnerFunction:     data.PartnerFunction,
+			Customer:            data.Customer,
+			Supplier:            data.Supplier,
+		})
+	}
+
+	return itemPartner, nil
+}
+
+func ConvertToToHeaderPartner(raw []byte, l *logger.Logger) ([]ToHeaderPartner, error) {
+	pm := &responses.ToHeaderPartner{}
+
+	err := json.Unmarshal(raw, pm)
+	if err != nil {
+		return nil, xerrors.Errorf("cannot convert to ToHeaderPartner. unmarshal error: %w", err)
+	}
+	if len(pm.D.Results) == 0 {
+		return nil, xerrors.New("Result data is not exist")
+	}
+	if len(pm.D.Results) > 10 {
+		l.Info("raw data has too many Results. %d Results exist. show the first 10 of Results array", len(pm.D.Results))
+	}
+
+	toHeaderPartner := make([]ToHeaderPartner, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		toHeaderPartner = append(toHeaderPartner, ToHeaderPartner{
 			BillingDocument: data.BillingDocument,
 			PartnerFunction: data.PartnerFunction,
 			Customer:        data.Customer,
@@ -188,7 +217,7 @@ func ConvertToToPartnerFunction(raw []byte, l *logger.Logger) ([]ToPartnerFuncti
 		})
 	}
 
-	return toPartnerFunction, nil
+	return toHeaderPartner, nil
 }
 
 func ConvertToToItem(raw []byte, l *logger.Logger) ([]ToItem, error) {
@@ -244,20 +273,20 @@ func ConvertToToItem(raw []byte, l *logger.Logger) ([]ToItem, error) {
 			SalesDocumentItem:            data.SalesDocumentItem,
 			SDDocumentReason:             data.SDDocumentReason,
 			ShippingPoint:                data.ShippingPoint,
-			ToItemPartnerFunction:        data.ToPartner.Deferred.URI,
-			ToItemPricingElement:         data.ToPricingElement.Deferred.URI,
+			ToItemPartner:                data.ToItemPartner.Deferred.URI,
+			ToItemPricingElement:         data.ToItemPricingElement.Deferred.URI,
 		})
 	}
 
 	return toItem, nil
 }
 
-func ConvertToToItemPartnerFunction(raw []byte, l *logger.Logger) ([]ToItemPartnerFunction, error) {
-	pm := &responses.ToItemPartnerFunction{}
+func ConvertToToItemPartner(raw []byte, l *logger.Logger) ([]ToItemPartner, error) {
+	pm := &responses.ToItemPartner{}
 
 	err := json.Unmarshal(raw, pm)
 	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to ToItemPartnerFunction. unmarshal error: %w", err)
+		return nil, xerrors.Errorf("cannot convert to ToItemPartner. unmarshal error: %w", err)
 	}
 	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
@@ -266,10 +295,10 @@ func ConvertToToItemPartnerFunction(raw []byte, l *logger.Logger) ([]ToItemPartn
 		l.Info("raw data has too many Results. %d Results exist. show the first 10 of Results array", len(pm.D.Results))
 	}
 
-	toItemPartnerFunction := make([]ToItemPartnerFunction, 0, 10)
+	toItemPartner := make([]ToItemPartner, 0, 10)
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
-		toItemPartnerFunction = append(toItemPartnerFunction, ToItemPartnerFunction{
+		toItemPartner = append(toItemPartner, ToItemPartner{
 			BillingDocument:     data.BillingDocument,
 			BillingDocumentItem: data.BillingDocumentItem,
 			PartnerFunction:     data.PartnerFunction,
@@ -278,7 +307,7 @@ func ConvertToToItemPartnerFunction(raw []byte, l *logger.Logger) ([]ToItemPartn
 		})
 	}
 
-	return toItemPartnerFunction, nil
+	return toItemPartner, nil
 }
 
 func ConvertToToItemPricingElement(raw []byte, l *logger.Logger) ([]ToItemPricingElement, error) {
@@ -299,47 +328,30 @@ func ConvertToToItemPricingElement(raw []byte, l *logger.Logger) ([]ToItemPricin
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
 		toItemPricingElement = append(toItemPricingElement, ToItemPricingElement{
-			BillingDocument:               data.BillingDocument,
-			BillingDocumentItem:           data.BillingDocumentItem,
-			PricingProcedureStep:          data.PricingProcedureStep,
-			PricingProcedureCounter:       data.PricingProcedureCounter,
-			ConditionType:                 data.ConditionType,
-			PricingDateTime:               data.PricingDateTime,
-			ConditionCalculationType:      data.ConditionCalculationType,
-			ConditionBaseValue:            data.ConditionBaseValue,
-			ConditionRateValue:            data.ConditionRateValue,
-			ConditionCurrency:             data.ConditionCurrency,
-			ConditionQuantity:             data.ConditionQuantity,
-			ConditionQuantityUnit:         data.ConditionQuantityUnit,
-			ConditionCategory:             data.ConditionCategory,
-			ConditionIsForStatistics:      data.ConditionIsForStatistics,
-			PricingScaleType:              data.PricingScaleType,
-			IsRelevantForAccrual:          data.IsRelevantForAccrual,
-			CndnIsRelevantForInvoiceList:  data.CndnIsRelevantForInvoiceList,
-			ConditionOrigin:               data.ConditionOrigin,
-			IsGroupCondition:              data.IsGroupCondition,
-			ConditionRecord:               data.ConditionRecord,
-			ConditionSequentialNumber:     data.ConditionSequentialNumber,
-			TaxCode:                       data.TaxCode,
-			WithholdingTaxCode:            data.WithholdingTaxCode,
-			CndnRoundingOffDiffAmount:     data.CndnRoundingOffDiffAmount,
-			ConditionAmount:               data.ConditionAmount,
-			TransactionCurrency:           data.TransactionCurrency,
-			ConditionControl:              data.ConditionControl,
-			ConditionInactiveReason:       data.ConditionInactiveReason,
-			ConditionClass:                data.ConditionClass,
-			PrcgProcedureCounterForHeader: data.PrcgProcedureCounterForHeader,
-			FactorForConditionBasisValue:  data.FactorForConditionBasisValue,
-			StructureCondition:            data.StructureCondition,
-			PeriodFactorForCndnBasisValue: data.PeriodFactorForCndnBasisValue,
-			PricingScaleBasis:             data.PricingScaleBasis,
-			ConditionScaleBasisValue:      data.ConditionScaleBasisValue,
-			ConditionScaleBasisUnit:       data.ConditionScaleBasisUnit,
-			ConditionScaleBasisCurrency:   data.ConditionScaleBasisCurrency,
-			CndnIsRelevantForIntcoBilling: data.CndnIsRelevantForIntcoBilling,
-			ConditionIsManuallyChanged:    data.ConditionIsManuallyChanged,
-			ConditionIsForConfiguration:   data.ConditionIsForConfiguration,
-			VariantCondition:              data.VariantCondition,
+			BillingDocument:             data.BillingDocument,
+			BillingDocumentItem:         data.BillingDocumentItem,
+			PricingProcedureStep:        data.PricingProcedureStep,
+			PricingProcedureCounter:     data.PricingProcedureCounter,
+			ConditionType:               data.ConditionType,
+			PricingDateTime:             data.PricingDateTime,
+			ConditionCalculationType:    data.ConditionCalculationType,
+			ConditionBaseValue:          data.ConditionBaseValue,
+			ConditionRateValue:          data.ConditionRateValue,
+			ConditionCurrency:           data.ConditionCurrency,
+			ConditionQuantity:           data.ConditionQuantity,
+			ConditionQuantityUnit:       data.ConditionQuantityUnit,
+			ConditionCategory:           data.ConditionCategory,
+			PricingScaleType:            data.PricingScaleType,
+			ConditionRecord:             data.ConditionRecord,
+			ConditionSequentialNumber:   data.ConditionSequentialNumber,
+			TaxCode:                     data.TaxCode,
+			ConditionAmount:             data.ConditionAmount,
+			TransactionCurrency:         data.TransactionCurrency,
+			PricingScaleBasis:           data.PricingScaleBasis,
+			ConditionScaleBasisValue:    data.ConditionScaleBasisValue,
+			ConditionScaleBasisUnit:     data.ConditionScaleBasisUnit,
+			ConditionScaleBasisCurrency: data.ConditionScaleBasisCurrency,
+			ConditionIsManuallyChanged:  data.ConditionIsManuallyChanged,
 		})
 	}
 

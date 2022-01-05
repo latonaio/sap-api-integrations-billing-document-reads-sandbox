@@ -1,6 +1,6 @@
 package responses
 
-type ToPartnerFunction struct {
+type ToHeaderPartner struct {
 	D struct {
 		Results []struct {
 			Metadata struct {
@@ -12,9 +12,6 @@ type ToPartnerFunction struct {
 			PartnerFunction string `json:"PartnerFunction"`
 			Customer        string `json:"Customer"`
 			Supplier        string `json:"Supplier"`
-			Deferred        struct {
-				URI string `json:"uri"`
-			} `json:"__deferred"`
 		} `json:"results"`
 	} `json:"d"`
 }

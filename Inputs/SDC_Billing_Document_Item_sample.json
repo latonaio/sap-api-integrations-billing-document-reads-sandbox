@@ -14,7 +14,7 @@
 		"DistributionChannel": "",
 		"Division": "",
 		"BillingDocumentDate": "",
-		"BillingDocumentIsCancelled": false,
+		"BillingDocumentIsCancelled": null,
 		"CancelledBillingDocument": "",
 		"IsExportDelivery": "",
 		"TotalNetAmount": "",
@@ -44,6 +44,11 @@
 		"InvoiceListStatus": "",
 		"BillingDocumentListType": "",
 		"BillingDocumentListDate": "",
+		"HeaderPartner": {
+			"PartnerFunction": "",
+			"Customer": "",
+			"Supplier": ""
+		},
 		"BillingDocumentItem": {
 			"BillingDocumentItem": "10",
 			"SalesDocumentItemCategory": "",
@@ -79,16 +84,42 @@
 			"SalesDocument": "",
 			"SalesDocumentItem": "",
 			"SDDocumentReason": "",
-			"ShippingPoint": ""
-		},
-		"PartnerFunction": {
-			"PartnerFunction": "",
-			"Customer": "",
-			"Supplier": ""
+			"ShippingPoint": "",
+			"ItemPartner": {
+				"PartnerFunction": "",
+				"Customer": "",
+				"Supplier": ""
+			},
+			"ItemPricingCondition": {
+				"BillingDocument": "",
+				"BillingDocumentItem": "",
+				"PricingProcedureStep": "",
+				"PricingProcedureCounter": "",
+				"ConditionType": "",
+				"PricingDateTime": "",
+				"ConditionCalculationType": "",
+				"ConditionBaseValue": "",
+				"ConditionRateValue": "",
+				"ConditionCurrency": "",
+				"ConditionQuantity": "",
+				"ConditionQuantityUnit": "",
+				"ConditionCategory": "",
+				"PricingScaleType": "",
+				"ConditionRecord": "",
+				"ConditionSequentialNumber": "",
+				"TaxCode": "",
+				"ConditionAmount": "",
+				"TransactionCurrency": "",
+				"PricingScaleBasis": "",
+				"ConditionScaleBasisValue": "",
+				"ConditionScaleBasisUnit": "",
+				"ConditionScaleBasisCurrency": "",
+				"ConditionIsManuallyChanged": null
+			}
 		}
 	},
 	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
-	"accepter": ["Item"],	
+	"accepter": ["Item"],
 	"billing_document": "90000000",
 	"deleted": false
 }

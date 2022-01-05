@@ -1,6 +1,6 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L227",
-	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Item",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L81",
+	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Header",
 	"level": "INFO",
 	"message": [
 		{
@@ -43,5 +43,5 @@
 			"to_PricingElement": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocumentItem(BillingDocument='90000000',BillingDocumentItem='10')/to_PricingElement"
 		}
 	],
-	"time": "2022-01-05T10:52:17.20013+09:00"
+	"time": "2022-01-05T11:00:29.960734+09:00"
 }

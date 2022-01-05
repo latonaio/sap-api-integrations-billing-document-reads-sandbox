@@ -147,10 +147,7 @@ type Item struct {
 			SalesDocIsCreatedFromReference bool   `json:"SalesDocIsCreatedFromReference"`
 			ShippingPoint                  string `json:"ShippingPoint"`
 			HigherLevelItemUsage           string `json:"HigherLevelItemUsage"`
-			Deferred                       struct {
-				URI string `json:"uri"`
-			} `json:"__deferred"`
-			ToItemPartnerFunction struct {
+			ToItemPartner struct {
 				Deferred struct {
 					URI string `json:"uri"`
 				} `json:"__deferred"`

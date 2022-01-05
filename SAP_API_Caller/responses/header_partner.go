@@ -1,6 +1,6 @@
 package responses
 
-type PartnerFunction struct {
+type HeaderPartner struct {
 	D struct {
 		Results []struct {
 			Metadata struct {

@@ -1,6 +1,6 @@
 package responses
 
-type ToItemPartnerFunction struct {
+type ItemPartner struct {
 	D struct {
 		Results []struct {
 			Metadata struct {

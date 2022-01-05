@@ -24,14 +24,13 @@ sap-api-integrations-billing-document-reads が対応する APIサービス は�
 ## 本レポジトリ に 含まれる API名
 sap-api-integrations-billing-document-reads には、次の API をコールするためのリソースが含まれています。  
 
-* A_BillingDocument（請求伝票 - ヘッダ）※請求伝票の詳細データを取得するために、ToItem、ToPartnerFunction、ToItemPartnerFunction、ToItemPricingElement、と合わせて利用されます。
+* A_BillingDocument（請求伝票 - ヘッダ）※請求伝票の詳細データを取得するために、ToItem、ToHeaderPartner、ToItemPartner、ToItemPricingElement、と合わせて利用されます。
+* A_BillingDocumentPartner（請求伝票 - ヘッダ取引先）
+* A_BillingDocumentItem（請求伝票 - 明細）※請求伝票明細の詳細データを取得するために、ToItemPartner、ToItemPricingElementと合わせて利用されます。
+* A_BillingDocumentItemPartner（請求伝票 - 明細取引先）
+* ToHeaderPartner（請求伝票 - ヘッダ取引先）
 * ToItem（請求伝票 - 明細）
-* ToPartnerFunction（請求伝票 - 取引先）
-* ToItemPartnerFunction（請求伝票 - 明細取引先）
-* ToItemPricingElement（請求伝票 - 明細価格条件）
-* A_BillingDocument('{BillingDocument}')/to_Partner（請求伝票 - 取引先）
-* A_BillingDocumentItem（請求伝票明細）※請求伝票の詳細データを取得するために、ToItemPartnerFunction、ToItemPricingElementと合わせて利用されます。
-* ToItemPartnerFunction（請求伝票 - 明細取引先）
+* ToItemPartner（請求伝票 - 明細取引先）
 * ToItemPricingElement（請求伝票 - 明細価格条件）
 
 ## API への 値入力条件 の 初期値
@@ -40,8 +39,9 @@ sap-api-integrations-billing-document-reads において、API への値入力�
 ### SDC レイアウト
 
 * inoutSDC.BillingDocument.BillingDocument（請求伝票）
-* inoutSDC.BillingDocument.PartnerFunction.PartnerFunction（取引先機能）
+* inoutSDC.BillingDocument.HeaderPartner.PartnerFunction（ヘッダ取引先機能）
 * inoutSDC.BillingDocument.BillingDocumentItem.BillingDocumentItem（請求伝票明細）
+* inoutSDC.BillingDocument.BillingDocumentItem.ItemPartner.PartnerFunction（明細取引先機能）
 
 ## SAP API Bussiness Hub の API の選択的コール
 
@@ -77,7 +77,7 @@ accepter における データ種別 の指定に基づいて SAP_API_Caller �
 caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
 
 ```
-func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction, billingDocumentItem string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFunction, billingDocumentItem, itemPartnerFunction string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
@@ -87,9 +87,9 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction,
 				c.Header(billingDocument)
 				wg.Done()
 			}()
-		case "PartnerFunction":
+		case "HeaderPartner":
 			func() {
-				c.PartnerFunction(billingDocument, partnerFunction)
+				c.HeaderPartner(billingDocument, headerPartnerFunction)
 				wg.Done()
 			}()
 		case "Item":
@@ -97,12 +97,15 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction,
 				c.Item(billingDocument, billingDocumentItem)
 				wg.Done()
 			}()
-
+		case "ItemPartner":
+			func() {
+				c.ItemPartner(billingDocument, billingDocumentItem, itemPartnerFunction)
+				wg.Done()
+			}()
 		default:
 			wg.Done()
 		}
 	}
-
 	wg.Wait()
 }
 ```
