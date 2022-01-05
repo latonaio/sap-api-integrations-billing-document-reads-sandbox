@@ -28,9 +28,9 @@ sap-api-integrations-billing-document-reads には、次の API をコールす�
 * A_BillingDocumentPartner（請求伝票 - ヘッダ取引先）
 * A_BillingDocumentItem（請求伝票 - 明細）※請求伝票明細の詳細データを取得するために、ToItemPartner、ToItemPricingElementと合わせて利用されます。
 * A_BillingDocumentItemPartner（請求伝票 - 明細取引先）
-* ToHeaderPartner（請求伝票 - ヘッダ取引先）
-* ToItem（請求伝票 - 明細）
-* ToItemPartner（請求伝票 - 明細取引先）
+* ToHeaderPartner（請求伝票 - ヘッダ取引先 ※To）
+* ToItem（請求伝票 - 明細 ※To）
+* ToItemPartner（請求伝票 - 明細取引先 ※To）
 * ToItemPricingElement（請求伝票 - 明細価格条件）
 
 ## API への 値入力条件 の 初期値
