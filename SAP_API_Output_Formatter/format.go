@@ -120,6 +120,7 @@ func ConvertToItem(raw []byte, l *logger.Logger) ([]Item, error) {
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
 		item = append(item, Item{
+		    BillingDocument:              data.BillingDocument,
 			BillingDocumentItem:          data.BillingDocumentItem,
 			SalesDocumentItemCategory:    data.SalesDocumentItemCategory,
 			ReturnItemProcessingType:     data.ReturnItemProcessingType,
@@ -238,6 +239,7 @@ func ConvertToToItem(raw []byte, l *logger.Logger) ([]ToItem, error) {
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
 		toItem = append(toItem, ToItem{
+		    BillingDocument:              data.BillingDocument,
 			BillingDocumentItem:          data.BillingDocumentItem,
 			SalesDocumentItemCategory:    data.SalesDocumentItemCategory,
 			ReturnItemProcessingType:     data.ReturnItemProcessingType,

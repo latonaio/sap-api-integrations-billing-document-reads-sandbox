@@ -63,6 +63,7 @@ type HeaderPartner struct {
 }
 
 type Item struct {
+	BillingDocument              string `json:"BillingDocument"`
 	BillingDocumentItem          string `json:"BillingDocumentItem"`
 	SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
 	ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
@@ -118,6 +119,7 @@ type ToHeaderPartner struct {
 }
 
 type ToItem struct {
+	BillingDocument              string `json:"BillingDocument"`
 	BillingDocumentItem          string `json:"BillingDocumentItem"`
 	SalesDocumentItemCategory    string `json:"SalesDocumentItemCategory"`
 	ReturnItemProcessingType     string `json:"ReturnItemProcessingType"`
