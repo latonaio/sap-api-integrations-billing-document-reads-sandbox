@@ -111,13 +111,13 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFun
 ```
 
 ## Output  
-本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
+本マイクロサービスでは、[golang-logging-library-for-sap](https://github.com/latonaio/golang-logging-library-for-sap) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は、SAP 請求伝票 の ヘッダデータ が取得された結果の JSON の例です。  
-以下の項目のうち、"BillingDocument" ～ "to_Partner" は、/SAP_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+以下の項目のうち、"BillingDocument" ～ "to_Partner" は、/SAP_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library-for-sap による 定型フォーマットの出力結果です。  
 
 ```
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L64",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L67",
 	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Header",
 	"level": "INFO",
 	"message": [
@@ -126,12 +126,12 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFun
 			"BillingDocumentType": "F2",
 			"SDDocumentCategory": "M",
 			"BillingDocumentCategory": "L",
-			"CreationDate": "/Date(1471392000000)/",
+			"CreationDate": "2016-08-17T09:00:00+09:00",
 			"LastChangeDate": "",
 			"SalesOrganization": "1710",
 			"DistributionChannel": "10",
 			"Division": "00",
-			"BillingDocumentDate": "/Date(1471392000000)/",
+			"BillingDocumentDate": "2016-08-17T09:00:00+09:00",
 			"BillingDocumentIsCancelled": false,
 			"CancelledBillingDocument": "",
 			"IsExportDelivery": "",
@@ -145,7 +145,7 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFun
 			"PaymentMethod": "",
 			"CompanyCode": "1710",
 			"AccountingDocument": "",
-			"ExchangeRateDate": "/Date(1471392000000)/",
+			"ExchangeRateDate": "2016-08-17T09:00:00+09:00",
 			"ExchangeRateType": "",
 			"DocumentReferenceID": "0090000000",
 			"SoldToParty": "17100001",
@@ -166,7 +166,7 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFun
 			"to_Partner": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocument('90000000')/to_Partner"
 		}
 	],
-	"time": "2022-01-04T15:09:50.73173+09:00"
+	"time": "2022-01-27T23:01:13+09:00"
 }
 
 ```

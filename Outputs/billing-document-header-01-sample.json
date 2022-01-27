@@ -8,12 +8,12 @@
 			"BillingDocumentType": "F2",
 			"SDDocumentCategory": "M",
 			"BillingDocumentCategory": "L",
-			"CreationDate": "/Date(1471392000000)/",
+			"CreationDate": "2016-08-17T09:00:00+09:00",
 			"LastChangeDate": "",
 			"SalesOrganization": "1710",
 			"DistributionChannel": "10",
 			"Division": "00",
-			"BillingDocumentDate": "/Date(1471392000000)/",
+			"BillingDocumentDate": "2016-08-17T09:00:00+09:00",
 			"BillingDocumentIsCancelled": false,
 			"CancelledBillingDocument": "",
 			"IsExportDelivery": "",
@@ -27,7 +27,7 @@
 			"PaymentMethod": "",
 			"CompanyCode": "1710",
 			"AccountingDocument": "",
-			"ExchangeRateDate": "/Date(1471392000000)/",
+			"ExchangeRateDate": "2016-08-17T09:00:00+09:00",
 			"ExchangeRateType": "",
 			"DocumentReferenceID": "0090000000",
 			"SoldToParty": "17100001",
@@ -48,5 +48,5 @@
 			"to_Partner": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocument('90000000')/to_Partner"
 		}
 	],
-	"time": "2022-01-05T10:48:04.853103+09:00"
+	"time": "2022-01-27T23:01:13+09:00"
 }

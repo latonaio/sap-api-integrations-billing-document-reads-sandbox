@@ -8,7 +8,7 @@
 			"BillingDocumentItem": "10",
 			"SalesDocumentItemCategory": "TAN",
 			"ReturnItemProcessingType": "",
-			"CreationDate": "/Date(1471392000000)/",
+			"CreationDate": "2016-08-17T09:00:00+09:00",
 			"Division": "00",
 			"Material": "TG11",
 			"InternationalArticleNumber": "",
@@ -22,7 +22,7 @@
 			"NetAmount": "52.65",
 			"TransactionCurrency": "USD",
 			"GrossAmount": "0.00",
-			"PricingDate": "/Date(1471392000000)/",
+			"PricingDate": "2016-08-17T09:00:00+09:00",
 			"TaxAmount": "4.21",
 			"MaterialPricingGroup": "",
 			"MainItemMaterialPricingGroup": "",
@@ -44,5 +44,5 @@
 			"to_PricingElement": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocumentItem(BillingDocument='90000000',BillingDocumentItem='10')/to_PricingElement"
 		}
 	],
-	"time": "2022-01-05T14:25:14.785174+09:00"
+	"time": "2022-01-27T23:01:14+09:00"
 }
